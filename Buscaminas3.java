@@ -60,9 +60,18 @@ class Buscaminas3 {
 	
 	/*genera un arreglo con 20 numeros que representan las casillas de la matriz*/
 	public static int[] generarMinas (int casillas){
-		int arr[]=new int[20];
-		for(int minas=0;minas<20;minas++){
-			arr[minas]=(int)(Math.random()*casillas);
+		int[] arr = new int[20];
+		if (casillas < arr.length) {
+			throw new IllegalArgumentException("El tablero requiere al menos 20 casillas");
+		}
+		boolean[] ocupadas = new boolean[casillas];
+		for (int mina = 0; mina < arr.length; mina++) {
+			int posicion;
+			do {
+				posicion = (int)(Math.random() * casillas);
+			} while (ocupadas[posicion]);
+			ocupadas[posicion] = true;
+			arr[mina] = posicion;
 		}
 		return arr;
 	}
@@ -83,20 +92,11 @@ class Buscaminas3 {
 	}
 	
 	
-	/*Apartir del arreglo arrMinas se se recorre y se compara con una temporal contador que
-	 *lleva el valor de la casilla de la matriz para poder compararla con las casillas generadas
-	 *en generarMinas();
-	 * */
-	public static String [][]llenarminas(String [][]tablero,int[]arrMinas){
-		int contador=0,i=0;
-		for(int j=0;j<tablero.length;j++){
-			for(int k=0;k<tablero[0].length;k++,contador++){
-				if(arrMinas[i]==contador){
-					tablero[j][k]= "Mina";
-					if(i+1<arrMinas.length)i++;
-					if(arrMinas[i-1]==arrMinas[i])++i;
-				}
-			}
+	/*Coloca las minas en las casillas elegidas por generarMinas.*/
+	public static String[][] llenarminas(String[][] tablero, int[] arrMinas) {
+		int columnas = tablero[0].length;
+		for (int posicion : arrMinas) {
+			tablero[posicion / columnas][posicion % columnas] = "Mina";
 		}
 		return tablero;
 	}

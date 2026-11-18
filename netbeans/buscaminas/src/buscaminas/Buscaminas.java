@@ -18,6 +18,7 @@ public class Buscaminas extends JFrame implements ActionListener {
     
     protected static int tamanox=10;
     protected static int tamanoy=10;
+    private boolean partidaPerdida;
     
     protected JButton tablero[][];
     protected boolean minas[][];
@@ -96,7 +97,7 @@ public class Buscaminas extends JFrame implements ActionListener {
         int nd=0;
         for(int x=0; x<tamanox; x++)
             for(int y=0; y<tamanoy; y++)
-                if(tablero[x][y].getText()!=" ")
+                if (!minas[x][y] && !" ".equals(tablero[x][y].getText()))
                     nd++;
         return nd;
     }
@@ -123,6 +124,7 @@ public class Buscaminas extends JFrame implements ActionListener {
                 tablero[i][j].setBackground(new Color(0,255,0));
                 if(minas[i][j])
                 {
+                    partidaPerdida = true;
                     tablero[i][j].setText("*");
                     tablero[i][j].setBackground(new Color(255,0,0));
                     
@@ -144,12 +146,14 @@ public class Buscaminas extends JFrame implements ActionListener {
                     int numMinas = CuentaMinas(i,j);
                     tablero[i][j].setText(Integer.toString(numMinas));
                 }
-                int nd = numDescubiertas();
-                setTitle("Quedan " + Integer.toString(1500-nd)+" casillas");
-                if(1500-nd ==tamanox)
+                int restantes = tamanox * tamanoy - tamanox - numDescubiertas();
+                setTitle("Quedan " + restantes + " casillas");
+                if (restantes == 0 && !partidaPerdida)
                 {
                     JOptionPane.showMessageDialog(this, "Muy bien, ya has terminado");
-                    System.exit(0);
+                    if (isShowing()) {
+                        dispose();
+                    }
                 }
            }
        }
