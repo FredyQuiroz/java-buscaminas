@@ -61,6 +61,27 @@ Use this repository’s Issues for questions about the archive.
 
 The source files match the archive entries. Snapshot dates use 12:00 UTC because the archive has no time zone.
 
+### Verification
+
+On November 18, 2026, the `javac` commands above built each commit with Eclipse Temurin 8u512-b09 in a separate copy. The test used Ubuntu 22.04 and Xvfb package `2:21.1.4-2ubuntu1.7~22.04.16` in a container with networking disabled. The separate `NocheMines` test harness called the original entry points and set a repeatable random seed. It tested the applet lifecycle in an AWT window and started the historical viewer separately for four seconds.
+
+```text
+java -cp out/original NocheMines original
+java -cp out/may NocheMines may
+java -cp out/may NocheMines duplicate
+java -cp out/june NocheMines june
+java -cp out/june NocheMines applet
+timeout 4s appletviewer examples/applet.html
+```
+
+The 2003 board and the June desktop and applet revealed a tile. The May edition showed its loss dialog in the first test and raised `ArrayIndexOutOfBoundsException` in `llenarminas` with seed 1. After opening 90 safe squares in the June desktop window, the title still showed `Quedan 1410 casillas`. No victory dialog appeared.
+
+![The 2003 board with a revealed numbered tile](docs/media/board.png)
+
+The animation shows the actual resized board before and after the same reveal.
+
+![Progress of a tile reveal on the 2003 board](docs/media/reveal.gif)
+
 ### License
 
 [MIT License](LICENSE) applies to the project’s own contributions. The applet source retains an archived attribution whose redistribution terms require confirmation.
@@ -126,6 +147,27 @@ Usa la sección Issues del repositorio para preguntas sobre el archivo.
 ### Historia
 
 Los fuentes coinciden con las entradas del respaldo. Las fechas de las copias usan las 12:00 UTC porque el archivo carece de zona horaria.
+
+### Verificación
+
+El 18 de noviembre de 2026, los comandos `javac` de arriba compilaron cada commit con Eclipse Temurin 8u512-b09 en su propia copia. Se usaron Ubuntu 22.04 y el paquete Xvfb `2:21.1.4-2ubuntu1.7~22.04.16` en un contenedor sin red. El ejecutor de pruebas `NocheMines` llamó los puntos de entrada originales y fijó una semilla reproducible. Probó el ciclo del applet dentro de una ventana AWT e inició el visor histórico por separado durante cuatro segundos.
+
+```text
+java -cp out/original NocheMines original
+java -cp out/may NocheMines may
+java -cp out/may NocheMines duplicate
+java -cp out/june NocheMines june
+java -cp out/june NocheMines applet
+timeout 4s appletviewer examples/applet.html
+```
+
+El tablero de 2003, la ventana y el applet de junio destaparon una casilla. La edición de mayo mostró el aviso de derrota en la primera prueba y lanzó `ArrayIndexOutOfBoundsException` en `llenarminas` con la semilla 1. Tras abrir 90 casillas libres en la ventana de junio, el título siguió mostrando `Quedan 1410 casillas`. No apareció el aviso de victoria.
+
+![Tablero de 2003 con una casilla numerada destapada](docs/media/board.png)
+
+La animación muestra el tablero real, ampliado para la captura, antes y después de destapar esa casilla.
+
+![Apertura de una casilla en el tablero de 2003](docs/media/reveal.gif)
 
 ### Licencia
 
